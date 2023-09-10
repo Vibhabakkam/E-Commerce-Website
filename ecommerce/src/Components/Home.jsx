@@ -1,25 +1,76 @@
 import React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import Sc42 from "../Components/Sc42.png";
 import Sc52 from "../Components/Sc52.png";
 import marsterCard from "../Components/masterCard.png";
 import american from "./../Components/American.png";
-import meastro from "../Components/maestro.png"
-import visa from "../Components/visa.png"
-import klrana from "../Components/klrana.png"
-import Paypal from "../Components/paypal.png"
-import {useNavigate} from "react-router-dom";
+import meastro from "../Components/maestro.png";
+import visa from "../Components/visa.png";
+import klrana from "../Components/klrana.png";
+import Paypal from "../Components/paypal.png";
+
 import "./Home.css";
 const Home = () => {
-    const router = useNavigate();
-    function routeLogin(){
-        router("/login")
+  const router = useNavigate();
+  function routeLogin() {
+    router("/login");
+  }
+  function routeRegister() {
+    router("/register");
+  }
+  function routeCart() {
+    router("/cart");
+  }
+  const [product, setProduct] = useState();
+
+  useEffect(() => {
+    const fechData = async () => {
+      try {
+        const response = await axios.get(
+          `https://fakestoreapi.com/products` //Pagination Id
+        );
+
+        if (response) {
+          setProduct(response.data);
+        } else {
+          console.log("Response Not Found");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fechData();
+  }, []);
+
+  // console.log(product);
+
+  const addToCart = (e) => {
+    let isLogin = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (!isLogin) return alert("Login to add Cart");
+
+    console.log(isLogin["current-user-email"]);
+
+    let userInfo = JSON.parse(localStorage.getItem("userData"));
+
+    for (let i = 0; i < userInfo.length; i++) {
+      if (isLogin["current-user-email"] === userInfo[i].email) {
+        if (userInfo[i].cart === undefined) {
+          userInfo[i].cart = [e];
+        } else {
+          userInfo[i].cart.push(e);
+        }
+        localStorage.setItem("userData", JSON.stringify(userInfo));
+      }
     }
-    function routeRegister(){
-        router("/register")
-    }
-    function routeCart(){
-        router("/cart")
-    }
+
+    console.log(userInfo);
+
+    alert("Add to Cart");
+  };
 
   return (
     <div id="Hmain-div">
@@ -72,7 +123,7 @@ const Home = () => {
               </p>
               Login
             </button>
-            <button onClick={routeRegister} >Register </button>
+            <button onClick={routeRegister}>Register </button>
             <button onClick={routeCart}>
               <p>
                 {" "}
@@ -85,8 +136,7 @@ const Home = () => {
                 >
                   <path d="M239.89,198.12l-14.26-120a16,16,0,0,0-16-14.12H176a48,48,0,0,0-96,0H46.33a16,16,0,0,0-16,14.12l-14.26,120A16,16,0,0,0,20,210.6a16.13,16.13,0,0,0,12,5.4H223.92A16.13,16.13,0,0,0,236,210.6,16,16,0,0,0,239.89,198.12ZM128,32a32,32,0,0,1,32,32H96A32,32,0,0,1,128,32ZM32,200,46.33,80H80v24a8,8,0,0,0,16,0V80h64v24a8,8,0,0,0,16,0V80h33.75l14.17,120Z"></path>
                 </svg>
-              </p> 
-              
+              </p>
               Cart
             </button>
           </div>
@@ -127,7 +177,21 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div id="all-Products"></div>
+      <div id="all-Products">
+        {product ? (
+          product.map((e, i) => (
+            <div key={i}>
+              <img src={e.image} alt="productImage"></img>
+              <p>{e.category}</p>
+              <p>{e.description}</p>
+              <p>${e.price}</p>
+              <button onClick={() => addToCart(e)}>Add to Cart</button>
+            </div>
+          ))
+        ) : (
+          <div>Loading</div>
+        )}
+      </div>
       <div id="Zara">
         <img src={Sc52} alt="" />
       </div>
@@ -200,20 +264,20 @@ const Home = () => {
             </div>
           </div>
           <div id="Foo-2">
-                <h4>CATLOG</h4>
-                 <p>Necklaces</p>
-                 <p>Hoodies</p>
-                 <p>Jewelry Box</p>
-                 <p>T-Shirt</p>
-                 <p>Jacket</p>
+            <h4>CATLOG</h4>
+            <p>Necklaces</p>
+            <p>Hoodies</p>
+            <p>Jewelry Box</p>
+            <p>T-Shirt</p>
+            <p>Jacket</p>
           </div>
           <div id="Foo-2">
-                <h4>ABOUT US</h4>
-                <p>Our Producers</p>
-                <p>Sitemap</p>
-                <p>FAQ</p>
-                <p>About Us</p>
-                <p>Terms & Conditions</p>
+            <h4>ABOUT US</h4>
+            <p>Our Producers</p>
+            <p>Sitemap</p>
+            <p>FAQ</p>
+            <p>About Us</p>
+            <p>Terms & Conditions</p>
           </div>
           <div id="Foo-2">
             <h4>CUSTOMER SERVICES</h4>
@@ -225,19 +289,16 @@ const Home = () => {
           </div>
         </div>
         <div id="Footer2">
-            <div id="Footer2-1">
-                @ 2022 coral,Inc</div>
-            <div id="Footer2-2"  >
-            <img src={marsterCard} alt="" /> 
-            <img src={visa} alt="" />  
-            <img src={american} alt="" /> 
-              <img src={Paypal} alt="" />
-              <img src={meastro} alt="" />
-              <img src={klrana} alt="" />
-            </div>
-            <div id="Footer2-1">
-                 scroll to top
-            </div>
+          <div id="Footer2-1">@ 2022 coral,Inc</div>
+          <div id="Footer2-2">
+            <img src={marsterCard} alt="" />
+            <img src={visa} alt="" />
+            <img src={american} alt="" />
+            <img src={Paypal} alt="" />
+            <img src={meastro} alt="" />
+            <img src={klrana} alt="" />
+          </div>
+          <div id="Footer2-1">scroll to top</div>
         </div>
       </div>
     </div>
