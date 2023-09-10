@@ -1,0 +1,26 @@
+*{
+    margin: 0%;
+    padding: 0%;
+}
+
+#Hmain-div{
+    border: 1px solid blue;
+    width: 100%;
+    height: 100%;
+}
+#TopFirst{
+   border: 1px solid black; 
+   height: 500px;
+   background-color:#f1f1f1;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   padding-top: 1%;
+}
+#Top1{
+    width: 90% ;
+    border: 1px solid gray;
+    height: 12%;
+    display: flex;
+    justify-content: space-between;
+}
