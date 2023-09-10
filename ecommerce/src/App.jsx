@@ -8,7 +8,7 @@ function App() {
   return (
     <div>
       <Routes>
-      <Route excat path='/home' element={<Home/>} />
+      <Route excat path='/' element={<Home/>} />
       <Route excat path='/register' element={<Register/>} />
       <Route excat path='/login' element={<Login/>} />
       <Route excat path='/cart' element={<Cart/>} />
