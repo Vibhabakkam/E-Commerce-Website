@@ -10,7 +10,6 @@ import meastro from "../Components/maestro.png";
 import visa from "../Components/visa.png";
 import klrana from "../Components/klrana.png";
 import Paypal from "../Components/paypal.png";
-
 import "./Home.css";
 const Home = () => {
   const router = useNavigate();
@@ -24,13 +23,12 @@ const Home = () => {
     router("/cart");
   }
   const [product, setProduct] = useState();
+  const [cartProducts, setCartProducts] = useState(0);
 
   useEffect(() => {
     const fechData = async () => {
       try {
-        const response = await axios.get(
-          `https://fakestoreapi.com/products` //Pagination Id
-        );
+        const response = await axios.get(`https://fakestoreapi.com/products`);
 
         if (response) {
           setProduct(response.data);
@@ -43,16 +41,42 @@ const Home = () => {
     };
 
     fechData();
-  }, []);
+    cartItems();
+  }, [cartProducts]);
+
+  const cartItems = () => {
+    let isLogin = JSON.parse(localStorage.getItem("currentUser"));
+    let userInfo = JSON.parse(localStorage.getItem("userData"));
+
+    try {
+      for (let i = 0; i < userInfo.length; i++) {
+        if (isLogin["current-user-email"] === userInfo[i].email) {
+              setCartProducts(userInfo[i].cart.length);
+              break;
+        }
+      }
+    } catch (error) {
+        setCartProducts(0)
+    }
+    
+  };
 
   // console.log(product);
+  const logout = () => {
+    localStorage.removeItem("currentUser");
+    localStorage.removeItem("token");
+    alert("logout Successful");
+    window.location.reload();
+  };
+
+  let isLogin = JSON.parse(localStorage.getItem("currentUser"));
 
   const addToCart = (e) => {
     let isLogin = JSON.parse(localStorage.getItem("currentUser"));
 
     if (!isLogin) return alert("Login to add Cart");
 
-    console.log(isLogin["current-user-email"]);
+    // console.log(isLogin["current-user-email"]);
 
     let userInfo = JSON.parse(localStorage.getItem("userData"));
 
@@ -67,9 +91,9 @@ const Home = () => {
       }
     }
 
-    console.log(userInfo);
-
-    alert("Add to Cart");
+    // console.log(userInfo);
+    window.location.reload();
+    alert(" product Added to Cart");
   };
 
   return (
@@ -109,22 +133,27 @@ const Home = () => {
             </svg>
           </div>
           <div id="Top1-3">
-            <button onClick={routeLogin}>
-              <p>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="#000000"
-                  viewBox="0 0 256 256"
-                >
-                  <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
-                </svg>
-              </p>
-              Login
-            </button>
+            {isLogin ? (
+              <button onClick={logout}>LogOut</button>
+            ) : (
+              <button onClick={routeLogin}>
+                <p>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="#000000"
+                    viewBox="0 0 256 256"
+                  >
+                    <path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"></path>
+                  </svg>
+                </p>
+                Login
+              </button>
+            )}
             <button onClick={routeRegister}>Register </button>
             <button onClick={routeCart}>
+              <p>{cartProducts}</p>
               <p>
                 {" "}
                 <svg
@@ -137,7 +166,6 @@ const Home = () => {
                   <path d="M239.89,198.12l-14.26-120a16,16,0,0,0-16-14.12H176a48,48,0,0,0-96,0H46.33a16,16,0,0,0-16,14.12l-14.26,120A16,16,0,0,0,20,210.6a16.13,16.13,0,0,0,12,5.4H223.92A16.13,16.13,0,0,0,236,210.6,16,16,0,0,0,239.89,198.12ZM128,32a32,32,0,0,1,32,32H96A32,32,0,0,1,128,32ZM32,200,46.33,80H80v24a8,8,0,0,0,16,0V80h64v24a8,8,0,0,0,16,0V80h33.75l14.17,120Z"></path>
                 </svg>
               </p>
-              Cart
             </button>
           </div>
         </div>
@@ -177,13 +205,38 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <div id="New-Products">
+        <h1>New Products</h1>
+        <div>
+          <div id="New-1">
+            <p>
+              <b>All Product</b>
+            </p>
+            <p>T-shirts</p>
+            <p>Hoodies </p>
+            <p>Jackets</p>
+          </div>
+          <div id="New-2">
+            <button>Filter</button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              fill="#f8f7f7"
+              viewBox="0 0 256 256"
+            >
+              <path d="M230.6,49.53A15.81,15.81,0,0,0,216,40H40A16,16,0,0,0,28.19,66.76l.08.09L96,139.17V216a16,16,0,0,0,24.87,13.32l32-21.34A16,16,0,0,0,160,194.66V139.17l67.74-72.32.08-.09A15.8,15.8,0,0,0,230.6,49.53ZM40,56h0Zm108.34,72.28A15.92,15.92,0,0,0,144,139.17v55.49L112,216V139.17a15.92,15.92,0,0,0-4.32-10.94L40,56H216Z"></path>
+            </svg>
+          </div>
+        </div>
+      </div>
       <div id="all-Products">
         {product ? (
           product.map((e, i) => (
             <div key={i}>
               <img src={e.image} alt="productImage"></img>
               <p>{e.category}</p>
-              <p>{e.description}</p>
+              {/* <p>{e.description}</p> */}
               <p>${e.price}</p>
               <button onClick={() => addToCart(e)}>Add to Cart</button>
             </div>

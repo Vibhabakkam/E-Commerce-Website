@@ -1,0 +1,94 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+/* registration.css */
+#registration-main{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    /* border: 1px solid gray; */
+}
+#registration-main>h1{
+    align-self: center;
+}
+/* Registration form container */
+#registration-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid gray;
+    font-family: Arial, sans-serif;
+    width: 50%;
+    align-self: center;
+  }
+  
+  /* Form labels */
+  label {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  /* Input fields */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Login link button */
+  #login-link {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 20px;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  /* Register button */
+  #register-button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 20px;
+    transition: background-color 0.2s ease-in-out;
+  }
+  
+  /* Button hover effect */
+  #login-link:hover {
+    background-color: #0056b3;
+  }
+  
+  #register-button:hover {
+    background-color: #45a049;
+  }
+  
+  /* Media query for smaller screens */
+  @media (max-width: 768px) {
+    /* Adjust styles for smaller screens here */
+    #registration-form {
+      padding: 10px;
+      width: 100%;
+      border: none;
+    }
+  
+    input{
+      font-size: 14px;
+    }
+  
+    /* You can add more adjustments as needed */
+  }
+  
