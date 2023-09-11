@@ -146,6 +146,7 @@ function Login() {
             type="email"
             id="email"
             placeholder="Type your Email"
+            required
           />
           <br />
           <label htmlFor="password">Password</label>
@@ -157,6 +158,7 @@ function Login() {
             type="password"
             id="password"
             placeholder="Type your Password"
+            required
           />
           <br />
           <button onClick={routeRegister} id="register-link">
