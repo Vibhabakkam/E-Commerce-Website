@@ -13,7 +13,7 @@
 #registration-main>h1{
     align-self: center;
 }
-/* Registration form container */
+
 #registration-form {
     display: flex;
     flex-direction: column;
@@ -76,9 +76,9 @@
     background-color: #45a049;
   }
   
-  /* Media query for smaller screens */
+  
   @media (max-width: 768px) {
-    /* Adjust styles for smaller screens here */
+   
     #registration-form {
       padding: 10px;
       width: 100%;
@@ -89,6 +89,6 @@
       font-size: 14px;
     }
   
-    /* You can add more adjustments as needed */
+   
   }
   

@@ -167,7 +167,7 @@
  }
  
  
- /* Media query for smaller screens */
+ 
  @media (max-width: 768px) {
    #cart-items {
      grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
